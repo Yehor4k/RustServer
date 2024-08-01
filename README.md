@@ -1,3 +1,1 @@
-"# RustServer" 
-"# RustServer" 
-"# RustServer" 
+#Rust Server
