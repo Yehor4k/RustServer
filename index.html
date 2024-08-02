@@ -1,24 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Nontapas Server</title>
-    <style>
-        html, body {
-            margin: 0;
-            height: 100%;
-            overflow: hidden; /* Prevents scrollbars from appearing */
-        }
-        .fullscreen-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures the image covers the container without distortion */
-        }
-    </style>
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <img src="images/main.png" alt="Main Image" class="fullscreen-image">
+<body>  
+    <div class="image-container">
+        <img class="fadeIn-animation" draggable="false" src="https://wallpapercave.com/wp/wp7007774.jpg" style="opacity: 0.5;" alt="background image">           
+        <div class="overlay-text fadeInUp-animation">Nontapas Vanilla Server</div>
+        <div class="hline fadeInLine-animation"></div>
+        <div class="btncontainer">
+            <a href="https://discord.com/" target=”_blank”>Discord</a>
+            <a href="https://www.battlemetrics.com/servers/rust/28784565" target=”_blank”>Online: <span id="players"></span></a>
+            <a onclick="pasteIntoClipboard()" href="#">Copy IP</a>
+            <a href="https://www.patreon.com/user?u=84664818" target=”_blank”>Help Us</a>
+        </div>
+    </div>
+
+
+<script>
+const url = 'https://api.battlemetrics.com/servers/28784565';
+
+function fetchPlayerData() {
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const players = data.data.attributes.players;
+      const maxPlayers = data.data.attributes.maxPlayers;
+      const playerCounter = document.getElementById("players");
+      if (playerCounter) {
+        playerCounter.innerText = `${players}/${maxPlayers}`;
+      }
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+}
+
+function pasteIntoClipboard() {
+    navigator.clipboard.writeText("client.connect eu.nontapas-server.pp.ua");
+}
+
+fetchPlayerData();
+
+setInterval(fetchPlayerData, 10000);
+</script>
 </body>
 </html>
